@@ -1,28 +1,47 @@
-from flask import Flask, redirect, render_template
-
+from flask import Flask, redirect, render_template, request
+from flask_wtf import FlaskForm
+from wtforms import DecimalRangeField
 app = Flask(__name__)
-oxygen = 1.05
+V = 20
+Pven = 30
+Pint = 12
+DeltaP = 51
+Pavt = 87
+SvO2 = 65
 
-@app.route('/')
+@app.route('/admin/sliders', methods=['POST'])
+def sliders():
+    global V
+    global Pven
+    global Pint
+    global DeltaP
+    global Pavt
+    global SvO2
+    V = request.form['VS']
+    Pven = request.form['PvenS']
+    Pint = request.form['PintS']
+    DeltaP = request.form['DeltaPS']
+    Pavt = request.form['PavtS']
+    SvO2 = request.form['SvO2S']
+    return redirect('/admin')
+    
+@app.route('/admin')
 def hello():
-    return render_template('index.html',oxygen=oxygen)
+    global V
+    global Pven
+    global Pint
+    global DeltaP
+    global Pavt
+    global SvO2
+    return render_template('base.html', V=V, Pven=Pven, Pint=Pint, DeltaP=DeltaP, Pavt=Pavt, SvO2=SvO2)
 
-@app.route('/about')
+@app.route('/admin/about')
 def about():
     return render_template('about.html')
 
-@app.route('/comments/')
-def comments():
-    comments = ['This is the first comment.',
-                'This is the second comment.',
-                'This is the third comment.',
-                'This is the fourth comment.'
-                ]
-
-    return render_template('comments.html', comments=comments)
 
 if __name__ == '__main__':
 
     # run() method of Flask class runs the application 
     # on the local development server.
-    app.run()
+    app.run(debug=True)

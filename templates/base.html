@@ -1,5 +1,9 @@
 <!doctype html>
 <html lang="en">
+<style>
+    form {text-align: center;}
+    form {font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;}
+</style>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -13,29 +17,116 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('hello') }}">FlaskApp</a>
+            <a class="navbar-brand" href="{{ url_for('hello') }}">ECMO Trainer Control Panel</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('comments') }}">Comments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
-                    </li>
-                </ul>
+
             </div>
         </div>
     </nav>
-    <div class="container">
-        {% block content %} {% endblock %}
-    </div>
 
-    <!-- Optional JavaScript -->
+    <form method="POST" action="/admin/sliders">
+        <input id="VS" type="range" min="0" max="100" step="1" name="VS" value="{{V}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V:
+        <output id="VVal">{{V}}</output>
+        <br />
+        <input id="PvenS" type="range" min="0" max="100" step="1" name="PvenS" value="{{Pven}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;Pven:
+        <output id="PvenVal">{{Pven}}</output>
+        <br />
+        <input id="PintS" type="range" min="0" max="100" step="1" name="PintS" value="{{Pint}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;Pint:
+        <output id="PintVal">{{Pint}}</output>
+        <br />
+        <input id="DeltaPS" type="range" min="0" max="100" step="1" name="DeltaPS" value="{{DeltaP}}" style="width:75%" oninput="sliderChange(this.value)" />
+        DeltaP:
+        <output id="DeltaPVal">{{DeltaP}}</output>
+        <br />
+        <input id="PavtS" type="range" min="0" max="100" step="1" name="PavtS" value="{{Pavt}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;Pavt:
+        <output id="PavtVal">{{Pavt}}</output>
+        <br />
+        <input id="SvO2S" type="range" min="0" max="100" step="1" name="SvO2S" value="{{SvO2}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;SvO2:
+        <output id="SvO2Val">{{SvO2}}</output>
+        <br />
+        <input id="SliderEnterButton" type="submit" value="Send Values">
+    </form>
+    <input type="hidden" id="V" name="custId" value={{V}}>
+    <input type="hidden" id="Pven" name="custId" value={{Pven}}>
+    <input type="hidden" id="Pint" name="custId" value={{Pint}}>
+    <input type="hidden" id="DeltaP" name="custId" value={{DeltaP}}>
+    <input type="hidden" id="Pavt" name="custId" value={{Pavt}}>
+    <input type="hidden" id="SvO2" name="custId" value={{SvO2}}>
+    
+    <script>
+        function checkValues() {
+            if (document.getElementById('VS').value != document.getElementById('V').getAttribute("value") || document.getElementById('PvenS').value != document.getElementById('Pven').getAttribute("value") || document.getElementById('PintS').value != document.getElementById('Pint').getAttribute("value") || document.getElementById('DeltaPS').value != document.getElementById('DeltaP').getAttribute("value") || document.getElementById('PavtS').value != document.getElementById('Pavt').getAttribute("value") || document.getElementById('SvO2S').value != document.getElementById('SvO2').getAttribute("value")) {
+                document.getElementById('SliderEnterButton').style.backgroundColor = 'lightgreen';
+            }
+        }
+        const VS = document.getElementById('VS');
+        const VVal = document.getElementById('VVal');
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+        VS.addEventListener('input', function () {
+            VVal.innerHTML = this.value;
+            checkValues();
+        });
+
+        const PvenS = document.getElementById('PvenS');
+        const PvenVal = document.getElementById('PvenVal');
+
+        PvenS.addEventListener('input', function () {
+            PvenVal.innerHTML = this.value;
+            checkValues();
+        });
+
+        const PintS = document.getElementById('PintS');
+        const PintVal = document.getElementById('PintVal');
+
+        PintS.addEventListener('input', function () {
+            PintVal.innerHTML = this.value;
+            checkValues();
+        });
+
+        const DeltaPS = document.getElementById('DeltaPS');
+        const DeltaPVal = document.getElementById('DeltaPVal');
+
+        DeltaPS.addEventListener('input', function () {
+            DeltaPVal.innerHTML = this.value;
+            checkValues();
+        });
+
+        const PavtS = document.getElementById('PavtS');
+        const PavtVal = document.getElementById('PavtVal');
+
+        PavtS.addEventListener('input', function () {
+            PavtVal.innerHTML = this.value;
+            checkValues();
+        });
+
+        const SvO2S = document.getElementById('SvO2S');
+        const SvO2Val = document.getElementById('SvO2Val');
+
+        SvO2S.addEventListener('input', function () {
+            SvO2Val.innerHTML = this.value;
+            checkValues();
+        });
+    </script>
+
+
+</body>
+</html>
+    <!--</nav>-->
+<div class="container">
+    {% block content %} {% endblock %}
+</div>
+
+<!-- Optional JavaScript -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
 </body>
 </html>
