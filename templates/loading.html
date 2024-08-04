@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Loading...</title>
+    
+</head>
+
+<body>
+    <input type="hidden" id="timer" name="custId" value={{timer}}>
+    <p>Loading values now</p>
+    <script>
+        function navigate() {
+            window.location.href = '/admin/exampleScenario1/' + String(document.getElementById('timer').getAttribute("value"));  // Redirects user to the /map route when 'create_map' is finished
+        }
+        //fetch('/admin/exampleScenario1').then(navigate); // Performing 'create_map' and then calls navigate() function, declared above
+        navigate();
+    </script>
+</body>
+
+</html>

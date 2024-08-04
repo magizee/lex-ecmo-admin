@@ -1,9 +1,11 @@
 <!doctype html>
-<html lang="en">
 <style>
-    form {text-align: center;}
-    form {font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;}
+    form {
+        font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+    }
 </style>
+<html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -27,8 +29,8 @@
         </div>
     </nav>
 
-    <form method="POST" action="/admin/sliders">
-        <input id="VS" type="range" min="0" max="100" step="1" name="VS" value="{{V}}" style="width:75%" oninput="sliderChange(this.value)" />
+    <form id="inputSliders" method="POST" action="/admin/sliders">
+        <input id="VS" type="range" min="0" max="100" step="1" name="VS" value="{{V}}" style="width: 75%" oninput="sliderChange(this.value)" />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V:
         <output id="VVal">{{V}}</output>
         <br />
@@ -54,13 +56,18 @@
         <br />
         <input id="SliderEnterButton" type="submit" value="Send Values">
     </form>
+    <form id="exampleScenario1" method="POST" action="/admin/exampleScenario1Loading">
+        <input id="example1Length" name="example1Length" type="text" />
+        <input id="example1Button" type="submit" value="Example 1">
+    </form>
     <input type="hidden" id="V" name="custId" value={{V}}>
     <input type="hidden" id="Pven" name="custId" value={{Pven}}>
     <input type="hidden" id="Pint" name="custId" value={{Pint}}>
     <input type="hidden" id="DeltaP" name="custId" value={{DeltaP}}>
     <input type="hidden" id="Pavt" name="custId" value={{Pavt}}>
     <input type="hidden" id="SvO2" name="custId" value={{SvO2}}>
-    
+    <input type="hidden" id="sliderURL" name="custId" value={{sliderURL}}>
+
     <script>
         function checkValues() {
             if (document.getElementById('VS').value != document.getElementById('V').getAttribute("value") || document.getElementById('PvenS').value != document.getElementById('Pven').getAttribute("value") || document.getElementById('PintS').value != document.getElementById('Pint').getAttribute("value") || document.getElementById('DeltaPS').value != document.getElementById('DeltaP').getAttribute("value") || document.getElementById('PavtS').value != document.getElementById('Pavt').getAttribute("value") || document.getElementById('SvO2S').value != document.getElementById('SvO2').getAttribute("value")) {
