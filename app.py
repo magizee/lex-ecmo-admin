@@ -81,7 +81,7 @@ def hello():
     global Pavt
     global SvO2
     cleanValues()
-    return render_template('base.html', V=V, Pven=Pven, Pint=Pint, DeltaP=DeltaP, Pavt=Pavt, SvO2=SvO2, sliderURL=sliderURL)
+    return render_template('base.html', V=V, Pven=Pven, Pint=Pint, DeltaP=DeltaP, Pavt=Pavt, SvO2=SvO2)
 
 @app.route('/admin/about')
 def about():
