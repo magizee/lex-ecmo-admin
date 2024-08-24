@@ -4,16 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Loading...</title>
-    
+
 </head>
 
 <body>
     <input type="hidden" id="timer" name="custId" value={{timer}}>
+    <input type="hidden" id="scen" name="custId" value={{scen}}>
     <p>Loading values now</p>
     <p>Timer is set to: {{timer}} second(s)</p>
+
     <script>
         function navigate() {
-            window.location.href = '/admin/exampleScenario1/' + String(document.getElementById('timer').getAttribute("value"));  // Redirects user to the appropriate route, will load in the background until the timer is done.
+            window.location.href = '/admin/' + String(document.getElementById('scen').getAttribute("value") + '/' + String(document.getElementById('timer').getAttribute("value"));  // Redirects user to the appropriate route, will load in the background until the timer is done.
         }
         //fetch('/admin/exampleScenario1').then(navigate); // Performing 'create_map' and then calls navigate() function, declared above. DISUSEDss
         navigate();

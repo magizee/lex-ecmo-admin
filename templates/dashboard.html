@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ecmo Simulator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="nav">
+        <div class="icons">
+            <span class="icon"><i class="fa-solid fa-lungs"></i></span>
+            <span class="icon"><i class="fa-solid fa-lock"></i></span>
+        </div>
+        <div class="time" id="current-time"></div>
+    </div>
+    <div class="content">
+        <div class="container">
+        <table>
+            <tr>
+                <td id="cell-flow-rate" colspan="3">
+                    <p class="circled"><span>v&#775;</span></p>
+                    <span class="variable" id="flow-rate">{{flow_rate }}</span>
+                    <span class="unit">lpm</span>
+                </td>
+                <td id="cell-rpm" colspan="3">
+                    <p class="circled"><span>&#8635;</span></p>
+                    <span class="variable" id="rpm">{{ rpm }}</span>
+                    <span class="unit">rpm</span>
+                </td>
+            </tr>
+            <tr>
+                <td id="cell-p-ven" colspan="3">
+                    <p class="circled"><span>p<sub>ven</sub></span></p>
+                    <span class="variable" id="p-ven">{{ p_ven }}</span>
+                    <span class="unit">mmHg</span>
+                </td>
+                <td id="cell-p-art" colspan="3">
+                    <p class="circled"><span>p<sub>art</sub></span></p>
+                    <span class="variable" id="p-art">{{ p_art }}</span>
+                    <span class="unit">mmHg</span>
+                </td>
+            </tr>
+            <tr>
+                <td id="cell-p-int" colspan="3">
+                    <p class="circled"><span>p<sub>int</sub></span></p>
+                    <span class="variable" id="p-int">{{ p_int }}</span>
+                    <span class="unit">mmHg</span>
+                </td>
+                <td id="cell-t-art" colspan="3">
+                    <p class="circled"><span>T<sub>art</sub></span></p>
+                    <span class="variable" id="t-art">{{ t_art }}</span>
+                    <span class="unit">&deg;C</span>
+                </td>
+            </tr>
+            <tr>
+                <td id="cell-delta-p" colspan="3">
+                    <p class="circled"><span>&Delta;</span>p</p>
+                    <span class="variable" id="delta-p">{{ delta_p }}</span>
+                    <span class="unit">mmHg</span>
+                </td>
+                <td id="cell-svo2" colspan="3">
+                    <p class="circled"><span>S<sub>v</sub>O<sub>2</sub></span></p>
+                    <span class="variable" id="svo2">{{ svo2 }}</span>
+                    <span class="unit">%</span>
+                </td>
+            </tr>
+            <tr class="last-row">
+                <td><button onclick="location.href='/'"><i class="fas fa-home"></i></button></td>
+                <td><button onclick="location.href='/dashboard'"><i class="fa-solid fa-table-cells-large"></i></button></td>
+                <td><button class="disabled" disabled><i class="fa-solid fa-vials"></i></button></td>
+                <td><button class="disabled" disabled><i class="fa-solid fa-truck-medical"></i></button></td>
+                <td><button class="disabled" disabled><i class="fa-solid fa-link"></i></button></td>
+                <td><button class="disabled" disabled><i class="fa-regular fa-clock"></i></button></td>
+            </tr>
+        </table>
+        <div class="side-buttons">
+            <div class="connected-buttons">
+                <button onclick="location.href='/'"><i class="fas fa-home"></i></button>
+                <button onclick="location.href='/dashboard'"><i class="fa-solid fa-grip"></i></button>
+            </div>
+            <button class="circle-button"  onclick="showPopup('Alert')"><i class="fa-solid fa-s"></i><i class="fa-solid fa-triangle-exclamation"></i></button>
+            <button class="circle-button disabled" disabled><i class="fa-solid fa-link"></i></button>
+            <button class="rect-button"  onclick="showPopup('Battery')"><i class="fa-solid fa-battery-full"></i></button>
+        </div>
+    </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <div id="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        function showPopup(message) {
+            document.getElementById('modal-text').innerText = message + ' Information';
+            document.getElementById('myModal').style.display = "block";
+        }
+
+        function updateData() {
+            fetch('/update')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('flow-rate').innerText = data.flow_rate;
+                    document.getElementById('p-ven').innerText = data.p_ven;
+                    document.getElementById('p-int').innerText = data.p_int;
+                    document.getElementById('p-art').innerText = data.p_art;
+                    document.getElementById('t-art').innerText = data.t_art;
+                    document.getElementById('svo2').innerText = data.svo2;
+                    document.getElementById('delta-p').innerText = data.delta_p;
+                    document.getElementById('rpm').innerText = data.rpm;
+
+                    // Update cell classes based on safety status
+                    document.getElementById('cell-flow-rate').className = data.safety_status.flow_rate ? 'safe' : 'unsafe';
+                    document.getElementById('cell-p-ven').className = data.safety_status.p_ven ? 'safe' : 'unsafe';
+                    document.getElementById('cell-p-int').className = data.safety_status.p_int ? 'safe' : 'unsafe';
+                    document.getElementById('cell-p-art').className = data.safety_status.p_art ? 'safe' : 'unsafe';
+                    document.getElementById('cell-t-art').className = data.safety_status.t_art ? 'safe' : 'unsafe';
+                    document.getElementById('cell-svo2').className = data.safety_status.svo2 ? 'safe' : 'unsafe';
+                    document.getElementById('cell-delta-p').className = data.safety_status.delta_p ? 'safe' : 'unsafe';
+                });
+        }
+
+
+        setInterval(updateData, 1000); // Update data every second
+
+        function updateTime() {
+            const now = new Date();
+            const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            document.getElementById('current-time').innerText = now.toLocaleTimeString([], options);
+        }
+
+        setInterval(updateTime, 1000); // Update time every second
+        function closePopup() {
+            document.getElementById('myModal').style.display = "none";
+        }
+    </script>
+</body>
+</html>

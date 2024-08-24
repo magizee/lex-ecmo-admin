@@ -1,101 +1,286 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100vh;
+    margin: 0;
+    background-color: #ffffff;
+}
 
-.lds-spinner,
-.lds-spinner div,
-.lds-spinner div:after {
+.nav {
+    background-color: navy;
+    color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    position: relative;
+
+}
+
+.icons {
+    display: flex;
+    gap: 600px;    
+    position: relative;
+
+}
+
+.icon {
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+
+}
+
+.icon:first-child::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px; /* Extend the red background to the left */
+    top: -10px;
+    width: 50px; /* Adjust width to fit the icon area */
+    height: 195%; /* Full height of the navbar */
+    background-color: rgb(199, 68, 68);
+    z-index: -1; /* Place behind the icon */
+}
+
+/* Vertical white lines around the second icon */
+.icon:nth-child(2)::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -15px; /* Adjust left position for the left line */
+    width: 2px; /* Width of the line */
+    height: 195%; /* Full height of the navbar */
+    background-color: white;
+    z-index: -1; /* Place behind the icon */
+}
+
+.icon:nth-child(2)::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -15px; /* Adjust right position for the right line */
+    width: 2px; /* Width of the line */
+    height: 200%; /* Full height of the navbar */
+    background-color: rgb(255, 255, 255);
+    z-index: -1; /* Place behind the icon */
+}
+
+
+.time {
+    font-family: 'Inter';
+    font-size: 30px;
+}
+
+.content {
+    font-family: 'Inter';
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-grow: 1;
+    padding: 20px;
+    margin-top: 40px;
+    width: 100%;
     box-sizing: border-box;
 }
 
-.lds-spinner {
-    color: currentColor;
-    display: inline-block;
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     position: relative;
-    width: 80px;
-    height: 80px;
 }
 
-    .lds-spinner div {
-        transform-origin: 40px 40px;
-        animation: lds-spinner 1.2s linear infinite;
-    }
+table {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    width: auto;
+}
 
-        .lds-spinner div:after {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 3.2px;
-            left: 36.8px;
-            width: 6.4px;
-            height: 17.6px;
-            border-radius: 20%;
-            background: currentColor;
-        }
+td {
+    border: 3px solid navy;
+    padding: 15px;
+    text-align: left;
+    position: relative;
+    width: 100px; /* Adjust width as needed */
+    height: 120px; /* Adjust height as needed */
+}
 
-        .lds-spinner div:nth-child(1) {
-            transform: rotate(0deg);
-            animation-delay: -1.1s;
-        }
+.circled {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid navy;
+    border-radius: 50px;
+    width: 130px;
+    height: 100px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    margin: 0;
+    padding: 0;
+    color: navy;
+    background-color: #ffffff;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 35px;
+    font-weight: bold;
+}
 
-        .lds-spinner div:nth-child(2) {
-            transform: rotate(30deg);
-            animation-delay: -1s;
-        }
+.variable {
+    font-size: 80px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: navy;
 
-        .lds-spinner div:nth-child(3) {
-            transform: rotate(60deg);
-            animation-delay: -0.9s;
-        }
+}
 
-        .lds-spinner div:nth-child(4) {
-            transform: rotate(90deg);
-            animation-delay: -0.8s;
-        }
+.unit {
+    font-size: 30px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: navy;
 
-        .lds-spinner div:nth-child(5) {
-            transform: rotate(120deg);
-            animation-delay: -0.7s;
-        }
+}
 
-        .lds-spinner div:nth-child(6) {
-            transform: rotate(150deg);
-            animation-delay: -0.6s;
-        }
+button {
+    background-color: #ffffff;
+    width: 100%;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+    font-size: 40px;
+    color: navy;
+}
 
-        .lds-spinner div:nth-child(7) {
-            transform: rotate(180deg);
-            animation-delay: -0.5s;
-        }
+button:hover {
+    background-color: #ffffff;
+}
 
-        .lds-spinner div:nth-child(8) {
-            transform: rotate(210deg);
-            animation-delay: -0.4s;
-        }
+.side-buttons {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 10px); /* Adjust the space between the table and buttons */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        .lds-spinner div:nth-child(9) {
-            transform: rotate(240deg);
-            animation-delay: -0.3s;
-        }
+.connected-buttons {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid navy;
 
-        .lds-spinner div:nth-child(10) {
-            transform: rotate(270deg);
-            animation-delay: -0.2s;
-        }
+}
 
-        .lds-spinner div:nth-child(11) {
-            transform: rotate(300deg);
-            animation-delay: -0.1s;
-        }
+.connected-buttons button {
+    flex-grow: 1;
+    border: none;
+    border-top: 3px solid navy;
+    background-color: #ffffff;
+    color: navy;
+    height: 110px;
+    width: 150px;
+    font-size: 60px;
+    font-weight: bold;
+    margin: 0;
+    padding: 10px;
+}
 
-        .lds-spinner div:nth-child(12) {
-            transform: rotate(330deg);
-            animation-delay: 0s;
-        }
+.connected-buttons button:first-child {
+    border-top: 0; /* Remove the top border from the first button */
+}
 
-@keyframes lds-spinner {
-    0% {
-        opacity: 1;
-    }
+.last-row td {
+    font-size: 40px;
+    color: navy;
+    height: 80px; /* Set height for last row */
+    padding: 10px; /* Adjust padding if necessary */
+}
 
-    100% {
-        opacity: 0;
-    }
+.circle-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid navy;
+    border-radius: 50px;
+    height: 90px;
+    width: 150px;
+    margin: 10px 0;
+    background-color: #ffffff;
+    color: navy;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.rect-button {
+    height: 110px;
+    width: 150px;
+    border: 3px solid navy;
+    background-color: #ffffff;
+    color: navy;
+    font-size: 40px;
+    font-weight: bold;
+    position: absolute;
+    top: calc(100% + 160px); /* Move down by the height of the table row plus margin */
+}
+
+.safe {
+    background-color: #ffffff;
+}
+
+.unsafe {
+    background-color: #fffc39;
+}
+
+
+.disabled i {
+    color: rgb(125, 125, 170)
+}
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 50%;
+    top: 50%;
+    width: 80%; /* Adjust as needed */
+    height: 80%; /* Adjust as needed */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: navy; /* Background color */
+    transform: translate(-50%, -50%);
+}
+
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 3px solid navy;
+    width: 80%; /* Could be more or less, depending on screen size */
+    text-align: center;
+}
+
+.close {
+    color: navy;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
 }

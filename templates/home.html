@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - Ecmo Simulator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .box {
+            width: 734px;
+            height: 605px;
+            border: 3px solid navy;
+            border-bottom: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .box button {
+            width: 100px; /* Adjust width as needed */
+            height: 80px; 
+            outline: 3px navy;
+            background-color: blanchedalmond;
+            color: navy; /* Text color */
+            font-size: 16px; /* Adjust font size as needed */
+            cursor: pointer; 
+            top: 50px;
+        }
+
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 50%;
+            top: 50%;
+            width: 80%; /* Adjust as needed */
+            height: 80%; /* Adjust as needed */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: navy; /* Background color */
+            transform: translate(-50%, -50%);
+        }
+
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 3px solid navy;
+            width: 80%; /* Could be more or less, depending on screen size */
+            text-align: center;
+        }
+
+        .close {
+            color: navy;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: red;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div class="icons">
+            <span class="icon"><i class="fa-solid fa-lungs"></i></span>
+            <span class="icon"><i class="fa-solid fa-lock"></i></span>
+        </div>
+        <div class="time" id="current-time"></div>
+    </div>
+    <div class="content">
+        <div class="container">
+            <div class="box">
+                <button onclick="location.href='/admin'">USE AS ADMIN</button>
+            </div>
+            <div class="side-buttons">
+                <div class="connected-buttons">
+                    <button onclick="location.href='/'"><i class="fas fa-home"></i></button>
+                    <button onclick="location.href='/dashboard'"><i class="fa-solid fa-grip"></i></button>
+                </div>
+                <button class="circle-button" onclick="showPopup('Alert')"><i class="fa-solid fa-s"></i><i class="fa-solid fa-triangle-exclamation"></i></button>
+                <button class="circle-button disabled" disabled><i class="fa-solid fa-link"></i></button>
+                <button class="rect-button" onclick="showPopup('Battery')"><i class="fa-solid fa-battery-full"></i></button>
+            </div>
+            <table>
+                <tr class="last-row">
+                    <td><button onclick="location.href='/'"><i class="fas fa-home"></i></button></td>
+                    <td><button onclick="location.href='/dashboard'"><i class="fa-solid fa-table-cells-large"></i></button></td>
+                    <td><button class="disabled" disabled><i class="fa-solid fa-vials"></i></button></td>
+                    <td><button class="disabled" disabled><i class="fa-solid fa-truck-medical"></i></button></td>
+                    <td><button class="disabled" disabled><i class="fa-solid fa-link"></i></button></td>
+                    <td><button class="disabled" disabled><i class="fa-regular fa-clock"></i></button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <div id="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        function showPopup(message) {
+            document.getElementById('modal-text').innerText = message + ' Information';
+            document.getElementById('myModal').style.display = "block";
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            document.getElementById('current-time').innerText = now.toLocaleTimeString([], options);
+        }
+
+        setInterval(updateTime, 1000); // Update time every second
+        function closePopup() {
+            document.getElementById('myModal').style.display = "none";
+        }
+    </script>
+</body>
+</html>

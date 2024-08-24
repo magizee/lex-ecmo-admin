@@ -1,0 +1,172 @@
+<!doctype html>
+<style>
+    form {
+        font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+    }
+</style>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>{% block title %} {% endblock %} - FlaskApp</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('controlPanel') }}">ECMO Trainer Control Panel</a>
+            <!--
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+            -->
+        </div>
+        </div>
+    </nav>
+
+
+    <form id="inputSliders" method="POST" action="/admin/sliders">
+        <input id="VS" type="range" min={{VMin}} max={{VMax}} step="0.5" name="VS" value="{{V}}" style="width: 75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V:
+        <output id="VVal">{{V}}</output>
+        <br />
+        <input id="PvenS" type="range" min={{PvenMin}} max={{PvenMax}} step="0.5" name="PvenS" value="{{Pven}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;Pven:
+        <output id="PvenVal">{{Pven}}</output>
+        <br />
+        <input id="PintS" type="range" min={{PintMin}} max={{PintMax}} step="0.5" name="PintS" value="{{Pint}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;Pint:
+        <output id="PintVal">{{Pint}}</output>
+        <br />
+        <input id="DeltaPS" type="range" min={{DeltaPMin}} max={{DeltaPMax}} step="0.5" name="DeltaPS" value="{{DeltaP}}" style="width:75%" oninput="sliderChange(this.value)" />
+        DeltaP:
+        <output id="DeltaPVal">{{DeltaP}}</output>
+        <br />
+        <input id="PartS" type="range" min={{PartMin}} max={{PartMax}} step="0.5" name="PartS" value="{{Part}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;Part:
+        <output id="PartVal">{{Part}}</output>
+        <br />
+        <input id="SvO2S" type="range" min={{SvO2Min}} max={{ScO2Max}} step="0.5" name="SvO2S" value="{{SvO2}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;SvO2:
+        <output id="SvO2Val">{{SvO2}}</output>
+        <br />
+        <input id="TartS" type="range" min={{TartMin}} max={{TartMax}} step="0.5" name="TartS" value="{{Tart}}" style="width:75%" oninput="sliderChange(this.value)" />
+        &nbsp;&nbsp;Tart:
+        <output id="TartVal">{{Tart}}</output>
+        <br />
+        <input id="SliderEnterButton" type="submit" value="Send Values">
+    </form>
+    <form id="exampleScenario1" method="POST" action="/admin/loading/exampleScenario1">
+        <br />
+        <input id="example1Length" name="example1Length" type="text" />
+
+        <input id="example1Button" type="submit" value="Example 1">
+    </form>
+    <h1 id="RPM-Display">
+        RPM: 0
+    </h1>
+    <input type="hidden" id="V" name="custId" value={{V}}>
+    <input type="hidden" id="Pven" name="custId" value={{Pven}}>
+    <input type="hidden" id="Pint" name="custId" value={{Pint}}>
+    <input type="hidden" id="DeltaP" name="custId" value={{DeltaP}}>
+    <input type="hidden" id="Part" name="custId" value={{Part}}>
+    <input type="hidden" id="SvO2" name="custId" value={{SvO2}}>
+    <input type="hidden" id="Tart" name="custId" value={{Tart}}>
+
+    <script>
+
+        function updateRPM() {
+            fetch('/rpm')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('RPM-Display').innerHTML = "RPM: " + data.rpm;
+                });
+        }
+        setInterval(updateRPM, 1000);
+
+        function checkValues() {
+            //if (document.getElementById('VS') != document.getElementById('V').getAttribute("value") || document.getElementById('PvenS').value != document.getElementById('Pven').getAttribute("value") || document.getElementById('PintS').value != document.getElementById('Pint').getAttribute("value") || document.getElementById('DeltaPS').value != document.getElementById('DeltaP').getAttribute("value") || document.getElementById('PartS').value != document.getElementById('Part').getAttribute("value") || document.getElementById('SvO2S').value != document.getElementById('SvO2').getAttribute("value")) {
+            document.getElementById('SliderEnterButton').style.backgroundColor = 'lightgreen';
+            //}
+        }
+        function checkValueSlider(slider) {
+            //if (Number(slider.checkValueSlider) == Number(val.getAttribute("value"))) {
+            //    slider.style.accentColor = 'gray';
+            //} else {
+            slider.style.accentColor = 'lightgreen';
+            //}
+        }
+        const VS = document.getElementById('VS');
+        const VVal = document.getElementById('VVal');
+
+        VS.addEventListener('input', function () {
+            VVal.innerHTML = Number(this.value).toFixed(1);
+            checkValueSlider(document.getElementById('VS'));
+        });
+
+        const PvenS = document.getElementById('PvenS');
+        const PvenVal = document.getElementById('PvenVal');
+
+        PvenS.addEventListener('input', function () {
+            PvenVal.innerHTML = Number(this.value).toFixed(1);
+            checkValueSlider(document.getElementById('PvenS'));
+        });
+
+        const PintS = document.getElementById('PintS');
+        const PintVal = document.getElementById('PintVal');
+
+        PintS.addEventListener('input', function () {
+            PintVal.innerHTML = Number(this.value).toFixed(1);
+            checkValueSlider(document.getElementById('PintS'));
+        });
+
+        const DeltaPS = document.getElementById('DeltaPS');
+        const DeltaPVal = document.getElementById('DeltaPVal');
+
+        DeltaPS.addEventListener('input', function () {
+            DeltaPVal.innerHTML = Number(this.value).toFixed(1);
+            checkValueSlider(document.getElementById('DeltaPS'));
+        });
+
+        const PartS = document.getElementById('PartS');
+        const PartVal = document.getElementById('PartVal');
+
+        PartS.addEventListener('input', function () {
+            PartVal.innerHTML = Number(this.value).toFixed(1);
+            checkValueSlider(document.getElementById('PartS'));
+        });
+
+        const SvO2S = document.getElementById('SvO2S');
+        const SvO2Val = document.getElementById('SvO2Val');
+
+        SvO2S.addEventListener('input', function () {
+            SvO2Val.innerHTML = Number(this.value).toFixed(1);
+            checkValueSlider(document.getElementById('SvO2S'));
+        });
+
+        const TartS = document.getElementById('TartS');
+        const TartVal = document.getElementById('TartVal');
+
+        TartS.addEventListener('input', function () {
+            TartVal.innerHTML = Number(this.value).toFixed(1);
+            checkValueSlider(document.getElementById('TartS'));
+        });
+    </script>
+
+</body>
+</html>
+<!--</nav>-->
+<div class="container">
+    {% block content %} {% endblock %}
+</div>
+
+<!-- Optional JavaScript -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
